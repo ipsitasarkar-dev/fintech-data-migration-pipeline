@@ -1,0 +1,17 @@
+{
+	"name": "ExternalLocationSetupSQL",
+	"properties": {
+		"content": {
+			"query": "-- 1. create the database\nCREATE DATABASE ReadExternalDataDB;\nGO\n\n-- 3. Create a Database Master Key (Required for Scoped Credentials)\nCREATE MASTER KEY ENCRYPTION BY PASSWORD = 'YourStrongPassword123!';\nGO\n\n-- 4. Create Database Scoped Credential using Workspace Managed Identity\nCREATE DATABASE SCOPED CREDENTIAL WorkspaceMSICredential\nWITH IDENTITY = 'Managed Identity';\nGO\n\n\nCREATE EXTERNAL DATA SOURCE FintechDataExternal\nWITH (\n    LOCATION = 'https://fintechrawdata.dfs.core.windows.net/',\n    CREDENTIAL = WorkspaceMSICredential\n);",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "ReadExternalDataDB",
+				"poolName": "Built-in"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
